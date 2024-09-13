@@ -32,12 +32,21 @@ vim.api.nvim_create_autocmd('VimEnter', {
             vim.fn.delete(symlink)
         end
 
-        if vim.fn.argc() > 0 or nvim_received_stdin then
-            -- Skip autoload if any files or folders are passed as command line arguments.
+        local utils = require('possession.utils')
+        local autoload_dir = utils.as_function(config.autoload_dir)()
+
+        local nvim_received_dir = (vim.fn.argc() == 1) and vim.fn.isdirectory(vim.v.argv[3])
+        local nvim_received_args = vim.fn.argc() > 0
+        local possession_ignore_dir = nvim_received_dir and (autoload_dir == false)
+        local possession_ignore_args = nvim_received_args and (nvim_received_dir == false)
+        if nvim_received_stdin or possession_ignore_dir or possession_ignore_args then
+            -- Skip autoload if nvim receives on command line:
+                -- stdin
+                -- a directory but autoload_dir is false
+                -- any files or multiple folders
             return
         end
 
-        local utils = require('possession.utils')
         local al = utils.as_function(config.autoload)()
         if al and al ~= '' then
             local cmd = require('possession.commands')

@@ -23,6 +23,7 @@ local function defaults()
             on_quit = true,
         },
         autoload = false, -- or 'last' or 'auto_cwd' or 'last_cwd' or fun(): string
+        autoload_dir = true,
         commands = {
             save = 'PossessionSave',
             load = 'PossessionLoad',

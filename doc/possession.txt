@@ -12,7 +12,7 @@ currently loaded session is used (unless noted otherwise).
 Save the current session information under `session_dir`. Use
 `:PossessionSave! [{name}]` to avoid asking for confirmation when overwriting
 existing session file. If [{name}] is omitted and a session does not
-already exist, you will be prompted for a name. 
+already exist, you will be prompted for a name.
 
                                                              *:PossessionLoad*
 :PossessionLoad [{name}]~
@@ -168,8 +168,13 @@ autoload~
     which case the behaviour is as defined for that string.
 
     Autoload is skipped when:
-    - Neovim is passed any files or folders as arguments
     - `stdin` is piped to Neovim
+    - Neovim is passed a directory, but autoload_dir is false
+    - Neovim is passed any files or multiple folders as arguments
+
+autoload_dir~
+    `boolean`
+    Whether to automatically load a session when directory is passed to Neovim.
 
                                                             *possession-hooks*
 hooks.before_save~
